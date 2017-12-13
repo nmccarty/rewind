@@ -15,6 +15,15 @@ impl<T> Purse<T> {
         Purse { contents: Vec::new() }
     }
 
+    pub fn new_filled(length: usize, element: T) -> Purse<T> {
+        let element = Arc::new(element);
+        let mut new_purse = Purse::new();
+        for _ in 0..length {
+            new_purse.contents.push(element.clone());
+        }
+        new_purse
+    }
+
     /// Returns the length of the Purse
     pub fn len(&self) -> usize {
         self.contents.len()
@@ -28,6 +37,13 @@ impl<T> Purse<T> {
     pub fn set(&self, index: usize, element: T) -> Purse<T> {
         let mut new_purse = self.clone();
         new_purse.contents[index] = Arc::new(element);
+        new_purse
+    }
+
+    /// Adds a value to the end of the Purse
+    pub fn push(&self, element: T) -> Purse<T> {
+        let mut new_purse = self.clone();
+        new_purse.contents.push(Arc::new(element));
         new_purse
     }
 }
