@@ -1,8 +1,14 @@
-//! Provides a persistent array
+//! Provides a persistent, immutable array with immutable elements
 
-use std::rc::Rc;
+use std::sync::Arc;
 
 /// Persistent array
 struct Purse<T> {
-    contents: Vec<Rc<T>>,
+    contents: Vec<Arc<T>>,
+}
+
+impl<T> Purse<T> {
+    fn new() -> Purse<T> {
+        Purse { contents: Vec::new(), }
+    }
 }
