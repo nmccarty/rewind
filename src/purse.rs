@@ -1,4 +1,4 @@
-//! Provides a persistent, immutable array with immutable elements
+//! Provides a persistent array with immutable elements
 
 use std::sync::Arc;
 use std::ops::Index;
@@ -10,8 +10,25 @@ pub struct Purse<T> {
 }
 
 impl<T> Purse<T> {
+    /// Creates a new, empty Purse
     pub fn new() -> Purse<T> {
         Purse { contents: Vec::new() }
+    }
+
+    /// Returns the length of the Purse
+    pub fn len(&self) -> usize {
+        self.contents.len()
+    }
+
+    /// "Sets" the value of the Purse at a given location
+    ///
+    /// # Panics
+    ///
+    /// Panics if the given index is out of bounds
+    pub fn set(&self, index: usize, element: T) -> Purse<T> {
+        let mut new_purse = self.clone();
+        new_purse.contents[index] = Arc::new(element);
+        new_purse
     }
 }
 
