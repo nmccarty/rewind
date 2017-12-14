@@ -61,3 +61,36 @@ impl<T> Index<usize> for Purse<T> {
         &self.contents[i]
     }
 }
+
+
+
+pub struct PurseIter<'a, T: 'a> {
+    purse: &'a Purse<T>,
+    index: usize,
+}
+
+impl<'a, T> Iterator for PurseIter<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<&'a T> {
+        if self.index >= self.purse.len() {
+            None
+        } else {
+            let next = &self.purse.contents[self.index];
+            self.index = self.index + 1;
+            Some(next)
+        }
+    }
+}
+
+impl<'a, T> IntoIterator for &'a Purse<T> {
+    type Item = &'a T;
+    type IntoIter = PurseIter<'a, T>;
+
+    fn into_iter(self) -> PurseIter<'a, T> {
+        PurseIter {
+            purse: &self,
+            index: 0,
+        }
+    }
+}
