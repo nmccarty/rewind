@@ -1,4 +1,5 @@
 mod purse;
+mod slice;
 
 #[cfg(test)]
 mod tests {
