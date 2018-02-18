@@ -13,7 +13,18 @@ pub struct Block {
 
 /// Provides a dictonary from provider:blockname values to u16:u16 values
 pub struct BlockDictonary {
-    provider_to_blocktable: HashMap<String, BlockTable>,
+    provider_str_to_blocktable: HashMap<String, BlockTable>,
+    provider_id_to_blocktable: HashMap<u16, BlockTable>,
+}
+
+impl BlockDictonary {
+    /// Creates a new, empty, BlockDictonary
+    pub fn new() -> BlockDictonary {
+        BlockDictonary {
+            provider_str_to_blocktable: HashMap::new(),
+            provider_id_to_blocktable: HashMap::new(),
+        }
+    }
 }
 
 /// Provides the table for a single block provider
