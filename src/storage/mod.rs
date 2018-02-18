@@ -1,4 +1,6 @@
-mod storage;
+mod purse;
+mod slice;
+mod cuboid;
 
 #[cfg(test)]
 mod tests {
