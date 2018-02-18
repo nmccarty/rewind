@@ -34,7 +34,7 @@ impl<T: Clone> Cuboid<T> {
         }
     }
 
-    pub fn set(&self, x: usize, y: usize, z: usize, value: T) -> Cuboid<T> {
+    pub fn set(&self, x: usize, y: usize, z: usize, value: T) -> Option<Cuboid<T>> {
         let old_slice = &self.data[z];
         let new_slice = old_slice.set(x, y, value);
         let new_purse = self.data.set(z, new_slice);
