@@ -35,15 +35,19 @@ impl<T: Clone> Cuboid<T> {
     }
 
     pub fn set(&self, x: usize, y: usize, z: usize, value: T) -> Option<Cuboid<T>> {
-        let old_slice = &self.data[z];
-        let new_slice = old_slice.set(x, y, value);
-        let new_purse = self.data.set(z, new_slice);
-        Cuboid {
-            data: new_purse,
-            default: self.default.clone(),
-            x_size: self.x_size,
-            y_size: self.y_size,
-            z_size: self.z_size,
+        if x >= self.x_size || y >= self.y_size || z >= self.z_size {
+            None
+        } else {
+            let old_slice = &self.data[z];
+            let new_slice = old_slice.set(x, y, value);
+            let new_purse = self.data.set(z, new_slice);
+            Some(Cuboid {
+                data: new_purse,
+                default: self.default.clone(),
+                x_size: self.x_size,
+                y_size: self.y_size,
+                z_size: self.z_size,
+            })
         }
     }
 }
