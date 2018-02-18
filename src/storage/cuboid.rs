@@ -13,7 +13,7 @@ pub struct Cuboid<T> {
 }
 
 impl<T: Clone> Cuboid<T> {
-    fn new(x_size: usize, y_size: usize, z_size: usize, default: T) -> Cuboid<T> {
+    pub fn new(x_size: usize, y_size: usize, z_size: usize, default: T) -> Cuboid<T> {
         let proto_slice = Slice::new(x_size, y_size, default.clone());
         let purse = Purse::new_filled(z_size, proto_slice);
         Cuboid {
@@ -25,7 +25,7 @@ impl<T: Clone> Cuboid<T> {
         }
     }
 
-    fn get(&self, x: usize, y: usize, z: usize) -> &T {
+    pub fn get(&self, x: usize, y: usize, z: usize) -> &T {
         if x >= self.x_size || y >= self.y_size || z >= self.z_size {
             &self.default
         } else {
@@ -34,7 +34,7 @@ impl<T: Clone> Cuboid<T> {
         }
     }
 
-    fn set(&self, x: usize, y: usize, z: usize, value: T) -> Cuboid<T> {
+    pub fn set(&self, x: usize, y: usize, z: usize, value: T) -> Cuboid<T> {
         let old_slice = &self.data[z];
         let new_slice = old_slice.set(x, y, value);
         let new_purse = self.data.set(z, new_slice);
