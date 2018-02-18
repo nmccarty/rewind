@@ -8,22 +8,59 @@ use std::collections::HashMap;
 /// Needs to be paired with a BlockDictonary to get useful values
 pub struct Block {
     provider: u16,
-    blockid: u16,
+    id: u16,
+}
+
+impl Block {
+    pub fn new_from_ids(provider: u16, id: u16) -> Block {
+        Block {
+            provider: provider,
+            id: id,
+        }
+    }
 }
 
 /// Provides a dictonary from provider:blockname values to u16:u16 values
 pub struct BlockDictonary {
-    provider_str_to_blocktable: HashMap<String, BlockTable>,
     provider_id_to_blocktable: HashMap<u16, BlockTable>,
+    provider_name_to_id: HashMap<String, u16>,
+    provider_id_to_name: HashMap<u16, String>,
 }
 
 impl BlockDictonary {
     /// Creates a new, empty, BlockDictonary
     pub fn new() -> BlockDictonary {
         BlockDictonary {
-            provider_str_to_blocktable: HashMap::new(),
             provider_id_to_blocktable: HashMap::new(),
+            provider_id_to_name: HashMap::new(),
+            provider_name_to_id: HashMap::new(),
         }
+    }
+
+    /// Returns an avaible provider id
+    fn new_id(&self) -> u16 {
+        let new_val = self.provider_id_to_name.keys().max();
+        if let Some(&x) = new_val {
+            x + 1
+        } else {
+            0
+        }
+    }
+
+    /// Adds a blocktable to the dictionary with the specificed id
+    ///
+    /// Dangerous, will not function properly if you try to rename an existing blocktable with it
+    pub fn add_pair(&mut self, table: BlockTable, id: u16) {
+        self.provider_id_to_name.insert(id, table.provider.clone());
+        self.provider_name_to_id.insert(table.provider.clone(), id);
+        self.provider_id_to_blocktable.insert(id, table);
+    }
+
+    /// Adds a blocktable to the dictionary
+    pub fn add_table(&mut self, table: BlockTable) -> u16 {
+        let id = self.new_id();
+        self.add_pair(table, id);
+        id
     }
 }
 
@@ -39,9 +76,9 @@ pub struct BlockTable {
 
 impl BlockTable {
     /// Creates a new, empty blocktable with the given provider name
-    pub fn new(provider: String) -> BlockTable {
+    pub fn new(provider: &str) -> BlockTable {
         BlockTable {
-            provider: provider,
+            provider: String::from(provider),
             name_to_val: HashMap::new(),
             val_to_name: HashMap::new(),
         }
@@ -53,6 +90,23 @@ impl BlockTable {
     pub fn add_pair(&mut self, name: &str, val: u16) {
         self.name_to_val.insert(String::from(name), val);
         self.val_to_name.insert(val, String::from(name));
+    }
+
+    /// Returns the next available id
+    fn new_id(&self) -> u16 {
+        let new_val = self.val_to_name.keys().max();
+        if let Some(&x) = new_val {
+            x + 1
+        } else {
+            0
+        }
+    }
+
+    /// Adds a name to the blocktable, assinging the next avaible value
+    pub fn add_name(&mut self, name: &str) -> u16 {
+        let id = self.new_id();
+        self.add_pair(name, id);
+        id
     }
 
     /// Looks up the value of a block, given the name
@@ -67,5 +121,10 @@ impl BlockTable {
     /// Dangerous, will crash if given an invalid value
     pub fn lookup_name(&self, val: u16) -> &str {
         self.val_to_name.get(&val).unwrap()
+    }
+
+    /// Returns the name of this blocktable
+    pub fn get_provider(&self) -> &str {
+        &self.provider
     }
 }
