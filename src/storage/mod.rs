@@ -1,6 +1,6 @@
 mod purse;
 mod slice;
-mod cuboid;
+pub mod cuboid;
 
 #[cfg(test)]
 mod tests {
