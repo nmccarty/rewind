@@ -1,4 +1,5 @@
 mod storage;
+mod data;
 
 #[cfg(test)]
 mod tests {
