@@ -62,6 +62,25 @@ impl BlockDictonary {
         self.add_pair(table, id);
         id
     }
+
+    /// Provides a ("provider","id") from a block
+    ///
+    /// Dangerous, will crash if given a malformed block
+    pub fn decode_block(&self, block: Block) -> (&str, &str) {
+        let table = self.provider_id_to_blocktable.get(&block.provider).unwrap();
+        let id = table.lookup_name(block.id);
+        (table.get_provider(), id)
+    }
+
+    /// Provides a block from a ("provider","id")
+    ///
+    /// Dangerous, will crash if given a bad ("Provider","id")
+    pub fn encode_block(&self, (provider, id): (&str, &str)) -> Block {
+        let provider_id = self.provider_name_to_id.get(provider).unwrap();
+        let blocktable = self.provider_id_to_blocktable.get(provider_id).unwrap();
+        let block_id = blocktable.lookup_value(id);
+        Block::new_from_ids(*provider_id, block_id)
+    }
 }
 
 /// Provides the table for a single block provider
