@@ -133,7 +133,7 @@ pub struct Slice<T> {
     y_size: usize,
 }
 
-impl<T> Slice<T> {
+impl<T: Clone> Slice<T> {
     pub fn new(x_size: usize, y_size: usize, default: T) -> Slice<T> {
         Slice {
             matrix: Matrix::new(x_size, y_size),
@@ -148,6 +148,15 @@ impl<T> Slice<T> {
             &self.default
         } else {
             self.matrix.get(x, y).unwrap_or(&self.default)
+        }
+    }
+
+    pub fn set(&self, x: usize, y: usize, data: T) -> Slice<T> {
+        Slice {
+            matrix: self.matrix.set(x, y, data),
+            default: self.default.clone(),
+            x_size: self.x_size,
+            y_size: self.y_size,
         }
     }
 }

@@ -24,4 +24,26 @@ impl<T: Clone> Cuboid<T> {
             z_size: z_size,
         }
     }
+
+    fn get(&self, x: usize, y: usize, z: usize) -> &T {
+        if x >= self.x_size || y >= self.y_size || z >= self.z_size {
+            &self.default
+        } else {
+            let slice = &self.data[z];
+            slice.get(x, y)
+        }
+    }
+
+    fn set(&self, x: usize, y: usize, z: usize, value: T) -> Cuboid<T> {
+        let old_slice = &self.data[z];
+        let new_slice = old_slice.set(x, y, value);
+        let new_purse = self.data.set(z, new_slice);
+        Cuboid {
+            data: new_purse,
+            default: self.default.clone(),
+            x_size: self.x_size,
+            y_size: self.y_size,
+            z_size: self.z_size,
+        }
+    }
 }
