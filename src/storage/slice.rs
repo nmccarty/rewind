@@ -124,3 +124,30 @@ impl<T> Matrix<T> {
         }
     }
 }
+
+/// Provides abstraction of an immutable, 2D array, with a default value
+pub struct Slice<T> {
+    matrix: Matrix<T>,
+    default: T,
+    x_size: usize,
+    y_size: usize,
+}
+
+impl<T> Slice<T> {
+    pub fn new(x_size: usize, y_size: usize, default: T) -> Slice<T> {
+        Slice {
+            matrix: Matrix::new(x_size, y_size),
+            default: default,
+            x_size: x_size,
+            y_size: y_size,
+        }
+    }
+
+    pub fn get(&self, x: usize, y: usize) -> &T {
+        if x >= self.x_size || y >= self.y_size {
+            &self.default
+        } else {
+            self.matrix.get(x, y).unwrap_or(&self.default)
+        }
+    }
+}
