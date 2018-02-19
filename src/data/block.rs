@@ -49,7 +49,7 @@ impl BlockDictonary {
 
     /// Adds a blocktable to the dictionary with the specificed id
     ///
-    /// Dangerous, will not function properly if you try to rename an existing blocktable with it
+    /// Dangerous, won't behave properly if you rename an existing blocktable with it
     pub fn add_pair(&mut self, table: BlockTable, id: u16) {
         self.provider_id_to_name.insert(id, table.provider.clone());
         self.provider_name_to_id.insert(table.provider.clone(), id);
