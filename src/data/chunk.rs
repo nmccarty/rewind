@@ -18,6 +18,8 @@ pub struct Chunk {
     dictonary: Option<Arc<BlockDictonary>>,
     /// Collection of blocks making up this chunk
     blocks: Cuboid<Block>,
+    /// MetaData belonging to those Blocks
+    meta_data: Cuboid<MetaData>,
     /// Default block for this cunk
     default_block: Block,
     /// x size of this chunk
@@ -37,9 +39,11 @@ impl Chunk {
     /// Defaults to a chunk size of 256x256x256.
     /// Defaults to no dictionary.
     pub fn new(default_block: Block) -> Chunk {
+        let blank_meta = MetaData::new();
         Chunk {
             dictonary: None,
             blocks: Cuboid::new(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, &default_block),
+            meta_data: Cuboid::new(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, &blank_meta),
             default_block: default_block,
             x_size: CHUNK_SIZE,
             y_size: CHUNK_SIZE,
@@ -54,5 +58,10 @@ impl Chunk {
         new_chunk
     }
 
-    
+    /// Gets the block at a specificed location, by value
+    pub fn get_block(&self, x: usize, y: usize, z: usize) -> MetaBlock {
+        let block = self.blocks.get(x, y, z).clone();
+        let meta = self.meta_data.get(x, y, z).clone();
+        MetaBlock::fuse(block, meta)
+    }
 }

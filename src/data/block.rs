@@ -21,6 +21,58 @@ impl Block {
     }
 }
 
+/// Stores metadata about a block (i.e. damagevalue)
+#[derive(Clone)]
+pub struct MetaData {
+    data_value: Option<i32>,
+}
+
+impl MetaData {
+    /// Creates a new MetaData with nothing in it
+    pub fn new() -> MetaData {
+        MetaData { data_value: None }
+    }
+
+    /// Sets the data_value of the meta data
+    pub fn set_data_value(&self, data_value: i32) -> MetaData {
+        let mut new_meta = self.clone();
+        new_meta.data_value = Some(data_value);
+        new_meta
+    }
+
+    /// Gets the data_value of the meta data
+    pub fn get_data_value(&self) -> Option<i32> {
+        self.data_value
+    }
+}
+
+/// Pairs a block with its metadata, if it has any
+#[derive(Clone)]
+pub struct MetaBlock {
+    block: Block,
+    meta_data: MetaData,
+}
+
+impl MetaBlock {
+    /// Combines a block and a metadata into a metablock
+    pub fn fuse(block: Block, meta: MetaData) -> MetaBlock {
+        MetaBlock {
+            block: block,
+            meta_data: meta,
+        }
+    }
+
+    /// Returns the block of the pair
+    pub fn get_block(&self) -> Block {
+        self.block.clone()
+    }
+
+    /// Returns the meta data of the pair
+    pub fn get_meta_data(&self) -> MetaData {
+        self.meta_data.clone()
+    }
+}
+
 /// Provides a dictonary from provider:blockname values to u16:u16 values
 pub struct BlockDictonary {
     provider_id_to_blocktable: HashMap<u16, BlockTable>,
