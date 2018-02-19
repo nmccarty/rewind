@@ -39,7 +39,7 @@ impl Chunk {
     pub fn new(default_block: Block) -> Chunk {
         Chunk {
             dictonary: None,
-            blocks: Cuboid::new(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, default_block.clone()),
+            blocks: Cuboid::new(CHUNK_SIZE, CHUNK_SIZE, CHUNK_SIZE, &default_block),
             default_block: default_block,
             x_size: CHUNK_SIZE,
             y_size: CHUNK_SIZE,
@@ -53,4 +53,6 @@ impl Chunk {
         new_chunk.dictonary = Some(dictonary.clone());
         new_chunk
     }
+
+    
 }

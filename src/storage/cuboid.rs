@@ -14,12 +14,12 @@ pub struct Cuboid<T> {
 }
 
 impl<T: Clone> Cuboid<T> {
-    pub fn new(x_size: usize, y_size: usize, z_size: usize, default: T) -> Cuboid<T> {
+    pub fn new(x_size: usize, y_size: usize, z_size: usize, default: &T) -> Cuboid<T> {
         let proto_slice = Slice::new(x_size, y_size, default.clone());
         let purse = Purse::new_filled(z_size, proto_slice);
         Cuboid {
             data: purse,
-            default: default,
+            default: default.clone(),
             x_size: x_size,
             y_size: y_size,
             z_size: z_size,
