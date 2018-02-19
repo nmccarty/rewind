@@ -64,4 +64,16 @@ impl Chunk {
         let meta = self.meta_data.get(x, y, z).clone();
         MetaBlock::fuse(block, meta)
     }
+
+    /// Sets the block at a specified location, by value
+    pub fn set_block(&self, x: usize, y: usize, z: usize, block: MetaBlock) -> Chunk {
+        let mut new_chunk = self.clone();
+        new_chunk.blocks = self.blocks
+            .set(x,y,z,block.get_block())
+            .unwrap_or(self.blocks.clone());
+        new_chunk.meta_data = self.meta_data
+            .set(x,y,z,block.get_meta_data())
+            .unwrap_or(self.meta_data.clone());
+        new_chunk
+    }
 }
