@@ -4,6 +4,7 @@ use storage::purse::*;
 use storage::slice::*;
 
 /// Immutable 3D array with a default value
+#[derive(Clone)]
 pub struct Cuboid<T> {
     data: Purse<Slice<T>>,
     default: T,

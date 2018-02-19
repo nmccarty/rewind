@@ -6,6 +6,7 @@ use std::collections::HashMap;
 
 /// Structure that stores a single Block
 /// Needs to be paired with a BlockDictonary to get useful values
+#[derive(Clone)]
 pub struct Block {
     provider: u16,
     id: u16,
