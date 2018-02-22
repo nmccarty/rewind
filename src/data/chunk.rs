@@ -69,10 +69,10 @@ impl Chunk {
     pub fn set_block(&self, x: usize, y: usize, z: usize, block: MetaBlock) -> Chunk {
         let mut new_chunk = self.clone();
         new_chunk.blocks = self.blocks
-            .set(x,y,z,block.get_block())
+            .set(x, y, z, block.get_block().clone())
             .unwrap_or(self.blocks.clone());
         new_chunk.meta_data = self.meta_data
-            .set(x,y,z,block.get_meta_data())
+            .set(x, y, z, block.get_meta_data().clone())
             .unwrap_or(self.meta_data.clone());
         new_chunk
     }

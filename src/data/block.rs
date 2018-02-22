@@ -63,13 +63,13 @@ impl MetaBlock {
     }
 
     /// Returns the block of the pair
-    pub fn get_block(&self) -> Block {
-        self.block.clone()
+    pub fn get_block(&self) -> &Block {
+        &self.block
     }
 
     /// Returns the meta data of the pair
-    pub fn get_meta_data(&self) -> MetaData {
-        self.meta_data.clone()
+    pub fn get_meta_data(&self) -> &MetaData {
+        &self.meta_data
     }
 }
 
