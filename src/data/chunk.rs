@@ -31,7 +31,7 @@ pub struct Chunk {
 }
 
 /// Default size of a chunk (chunks default to cubes)
-const CHUNK_SIZE: usize = 256;
+pub const CHUNK_SIZE: usize = 256;
 
 impl Chunk {
     /// Creates a new chunk with the specificed default block
