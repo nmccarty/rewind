@@ -30,7 +30,7 @@ pub struct Chunk {
     z_size: usize,
 }
 
-/// Default size of a chunk (chunks default to cubes)
+/// Default size of a chunk (chunks default to cubes).
 pub const CHUNK_SIZE: usize = 256;
 
 impl Chunk {
