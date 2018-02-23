@@ -47,6 +47,12 @@ impl World {
         self.chunks.get(&index)
     }
 
+    /// Returns true if the chunk at the specificed index exists
+    pub fn has_chunk_at(&self, x: i32, y: i32) -> bool {
+        let index = self.get_chunk_index(x, y);
+        self.chunks.contains_key(&index)
+    }
+
     /// Takes coordianates and turns them into their in chunks version
     fn convert_coords(&self, x: i32, y: i32, z: i32) -> (usize, usize, usize) {
         let x = (x.abs() as usize) % self.chunk_size;
@@ -63,6 +69,18 @@ impl World {
             Some(chunk.get_block(x, y, z))
         } else {
             None
+        }
+    }
+
+    /// Attempts to get the specified block
+    ///
+    /// Will return the default
+    pub fn get_block_defaulting(&self, x: i32, y: i32, z: i32) -> MetaBlock {
+        let maybe_block = self.get_block_at(x, y, z);
+        if let Some(block) = maybe_block {
+            block
+        } else {
+            self.default_block
         }
     }
 }
