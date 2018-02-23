@@ -6,7 +6,7 @@ use std::collections::HashMap;
 
 /// Structure that stores a single Block
 /// Needs to be paired with a BlockDictonary to get useful values
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct Block {
     provider: u16,
     id: u16,
@@ -22,7 +22,7 @@ impl Block {
 }
 
 /// Stores metadata about a block (i.e. damagevalue)
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct MetaData {
     data_value: Option<i32>,
 }
@@ -47,7 +47,7 @@ impl MetaData {
 }
 
 /// Pairs a block with its metadata, if it has any
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct MetaBlock {
     block: Block,
     meta_data: MetaData,
