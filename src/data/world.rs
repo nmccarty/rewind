@@ -74,7 +74,7 @@ impl World {
 
     /// Attempts to get the specified block
     ///
-    /// Will return the default
+    /// Will return the default if that block does not exist
     pub fn get_block_defaulting(&self, x: i32, y: i32, z: i32) -> MetaBlock {
         let maybe_block = self.get_block_at(x, y, z);
         if let Some(block) = maybe_block {
