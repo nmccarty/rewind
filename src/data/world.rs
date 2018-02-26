@@ -53,6 +53,13 @@ impl World {
         self.chunks.contains_key(&index)
     }
 
+    /// Creates a new chunk at the specificed index
+    fn create_chunk(&self, x: i32, y: i32) -> HashMap<(i32, i32), Chunk> {
+        let mut new_chunks = self.chunks.clone();
+        new_chunks.insert((x, y), Chunk::new(*self.default_block.get_block()));
+        new_chunks
+    }
+
     /// Takes coordianates and turns them into their in chunks version
     fn convert_coords(&self, x: i32, y: i32, z: i32) -> (usize, usize, usize) {
         let x = (x.abs() as usize) % self.chunk_size;
@@ -81,6 +88,29 @@ impl World {
             block
         } else {
             self.default_block
+        }
+    }
+
+    /// Returns true if the chunk a block is in exists, false otherwise
+    pub fn block_exists(&self, x: i32, y: i32, _z: i32) -> bool {
+        let (x, y) = self.get_chunk_index(x, y);
+        self.has_chunk_at(x, y)
+    }
+
+    /// Sets the block at the specified location, creating the chunk if it
+    /// doesnt exist
+    pub fn set_block_defaulting(&self, x: i32, y: i32, z: i32, block: MetaBlock) -> World {
+        let index = self.get_chunk_index(x, y);
+        let (cx, cy, cz) = self.convert_coords(x, y, z);
+        let empty_chunk = Chunk::new(*self.default_block.get_block());
+        let old_chunk = self.chunks.get(&index).unwrap_or(&empty_chunk);
+        let mut new_chunks = self.chunks.clone();
+        new_chunks.insert(index, old_chunk.set_block(cx, cy, cz, block));
+
+        World {
+            chunks: new_chunks,
+            default_block: self.default_block,
+            chunk_size: self.chunk_size,
         }
     }
 }
