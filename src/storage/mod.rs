@@ -1,9 +1,5 @@
-mod purse;
-mod slice;
+pub mod purse;
+pub mod slice;
 pub mod cuboid;
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {}
-}
+
