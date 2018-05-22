@@ -5,3 +5,4 @@ authors = ["Nathan McCarty <nathan@mccarty.io>"]
 
 [dependencies]
 im = "10.2.0"
+uuid = "0.6"
