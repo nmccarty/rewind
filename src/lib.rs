@@ -1,5 +1,5 @@
-mod storage;
 pub mod data;
+pub mod storage;
 
 #[cfg(test)]
 mod tests {
