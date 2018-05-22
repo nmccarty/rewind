@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Nathan McCarty <nathan@mccarty.io>"]
 
 [dependencies]
+im = "10.2.0"
