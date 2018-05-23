@@ -5,4 +5,4 @@ authors = ["Nathan McCarty <nathan@mccarty.io>"]
 
 [dependencies]
 im = "10.2.0"
-uuid = "0.6"
+uuid = { version = "0.6", features = ["v4"] }
