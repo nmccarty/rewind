@@ -10,7 +10,6 @@ use uuid::Uuid;
 pub struct TransactionID {
     node_id: u32,
     branch_id: Uuid,
-    
 }
 
 impl TransactionID {
@@ -21,7 +20,16 @@ impl TransactionID {
             branch_id: Uuid::new_v4(),
         }
     }
+
+    pub fn get_node_id(&self) -> u32 {
+        self.node_id
+    }
+
+    pub fn get_branch_id(&self) -> Uuid {
+        self.branch_id
+    }
+
+    pub fn new_from_parts(node_id: u32, branch_id: Uuid) -> TransactionID {
+        TransactionID { node_id, branch_id }
+    }
 }
-
-
-
