@@ -91,6 +91,38 @@ pub enum TransactionType {
     },
 }
 
+impl TransactionType {
+    /// Creates a new set transaction
+    ///
+    /// Takes the block to set to
+    pub fn new_set(block: Block) -> TransactionType {
+        TransactionType::Set { block_set: block }
+    }
+
+    /// Creates a new Replace transaction
+    ///
+    /// Takes the before and the after block
+    ///
+    /// This transaction type will only succueed if the block that is being set is still
+    /// in the orignal state when the transaction is being processed
+    pub fn new_replace(original: Block, replacement: Block) -> TransactionType {
+        TransactionType::Replace {
+            block_current: original,
+            block_set: replacement,
+        }
+    }
+
+    /// Creates a new undo transaction
+    ///
+    /// Takes the transaction to undo
+    ///
+    /// This will make the world appear as if the undone transaction had never occured, retroactivly
+    /// failing all the transactions that depended on the deleted one
+    pub fn new_undo(transaction: TransactionID) -> TransactionType {
+        TransactionType::Undo { transaction }
+    }
+}
+
 /// A transaction that has not yet been processed
 ///
 /// Contains all the information a normal transaction does, but doesn't have a transaction ID
