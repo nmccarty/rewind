@@ -26,4 +26,18 @@ impl TransactionID {
     pub fn new_from_parts(id: u32, sub_id: u32) -> TransactionID {
         TransactionID { id, sub_id }
     }
+
+    /// Increments the major id (id) by one
+    pub fn increment_major(&self) -> TransactionID {
+        let id = self.id + 1;
+        let sub_id = self.sub_id;
+        TransactionID { id, sub_id }
+    }
+
+    /// Increments the minor id (sub_id) by one
+    pub fn increment_minor(&self) -> TransactionID {
+        let id = self.id;
+        let sub_id = self.sub_id;
+        TransactionID { id, sub_id }
+    }
 }
