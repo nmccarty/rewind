@@ -182,3 +182,41 @@ pub struct RawTransactionBuilder {
     coord_y: Option<i32>,
     coord_z: Option<i32>,
 }
+
+impl RawTransactionBuilder {
+    /// Creates a new, empty RawTransactionBuilder
+    ///
+    /// Requries a Transaction type, as that is the only non-optional data
+    pub fn new(transaction_type: TransactionType) -> RawTransactionBuilder {
+        RawTransactionBuilder {
+            transaction_type,
+            owner: None,
+            time: None,
+            coord_x: None,
+            coord_y: None,
+            coord_z: None,
+        }
+    }
+
+    /// Converts the builder into a transaction
+    ///
+    /// Does not consume
+    pub fn build_transaction(&self) -> RawTransaction {
+        let transaction_type = self.transaction_type;
+        // If an owner was not provided, we are forced to default to the null Uuid
+        let owner = self.owner
+            .unwrap_or(Uuid::parse_str("0000000000000000000000000000000").unwrap());
+        let time = self.time;
+        let coords: Option<(i32, i32, i32)> = match (self.coord_x, self.coord_y, self.coord_z) {
+            (Some(x), Some(y), Some(z)) => Some((x, y, z)),
+            end => None,
+        };
+
+        RawTransaction {
+            transaction_type,
+            owner,
+            time,
+            coords,
+        }
+    }
+}
