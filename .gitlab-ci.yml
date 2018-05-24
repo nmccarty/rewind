@@ -16,21 +16,13 @@ image: "rust:latest"
 #- apt-get update -yqq
 #- apt-get install -yqq --no-install-recommends build-essential
 
-# Use cargo to build the project      
-build:cargo:
-  stage: build
-  variables:
-    CARGO_HOME: $CI_PROJECT_DIR/cargo
-  script:
-    - rustc --version && cargo --version
-    - cargo build
-  cache:
-    paths:
-      - target/
-      - cargo/
+stages:
+  - test
+  - doc
 
 # Use cargo to test the project
 test:cargo:
+  stage: test
   variables:
     CARGO_HOME: $CI_PROJECT_DIR/cargo
   script:
@@ -40,4 +32,19 @@ test:cargo:
     paths:
       - target/
       - cargo/
+
+# Rustdoc the crate
+pages:
+  image: "rust:latest"
+  stage: docker
+  only:
+    - master
+  script:
+    - cargo doc --no-deps
+    - rm -rf public
+    - mkdir public
+    - cp -R target/doc/* public
+  artifacts:
+    paths:
+      - public
   
