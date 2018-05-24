@@ -171,3 +171,14 @@ impl RawTransaction {
         self.coords
     }
 }
+
+/// A builder for transactions
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct RawTransactionBuilder {
+    transaction_type: TransactionType,
+    owner: Option<Uuid>,
+    time: Option<DateTime<FixedOffset>>,
+    coord_x: Option<i32>,
+    coord_y: Option<i32>,
+    coord_z: Option<i32>,
+}
