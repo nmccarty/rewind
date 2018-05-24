@@ -1,5 +1,6 @@
 //! This module contains datastructures describing transactions
 
+use data::block::*;
 use std::cmp::*;
 
 /// Repusents a Transaction ID
@@ -61,4 +62,28 @@ impl PartialOrd for TransactionID {
     fn partial_cmp(&self, other: &TransactionID) -> Option<Ordering> {
         Some(self.cmp(other))
     }
+}
+
+/// Describes the type of Trasnaction
+///
+/// Valid Transaction Types are:
+/// 1. Set
+///    * Blindly sets the block at a specificed location, will not check existing state
+/// 2. Replace
+///    * Replaces the specificed block at the specified location, will check to make sure
+///      the existing block is the same as the specified block.
+/// 3. Undo
+///    * Undoes the transaction with the given transaction id.
+///      Will make the world appear as if that transaction had never existed.
+pub enum TransactionType {
+    Set {
+        block_set: Block,
+    },
+    Replace {
+        block_current: Block,
+        block_set: Block,
+    },
+    Undo {
+        transaction: TransactionID,
+    },
 }
