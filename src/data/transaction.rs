@@ -128,12 +128,16 @@ impl TransactionType {
 /// Contains all the information a normal transaction does, but doesn't have a transaction ID
 /// associated with it, and has not yet been processed.
 ///
-/// This has several optional or defaulting behavior fields,
+/// This has several optional or defaulting behavior fields, so it the builder should be used
 #[derive(Copy, Clone, PartialEq, Eq)]
 pub struct RawTransaction {
     /// What this transaction is actually doing
     transaction_type: TransactionType,
     /// Who did the transaction
+    ///
+    /// This will default to the null Uuid, but this should be avoided if at all possible.
+    /// If there is any information avaible about who performed a transaction, even a best guess,
+    /// it would be wise to use the Uuid associated with that entitiy.
     owner: Uuid,
     /// When they did the transaction
     time: Option<DateTime<FixedOffset>>,
@@ -143,5 +147,27 @@ pub struct RawTransaction {
     ///
     /// This is optional because some transactions don't explicitly refrence a block, like an
     /// undo, and others may refrence large sections of blocks, like a SetCuboid
-    coords: Option<(u32, u32, u32)>,
+    coords: Option<(i32, i32, i32)>,
+}
+
+impl RawTransaction {
+    /// Returns the TransactionType
+    pub fn get_transaction_type(&self) -> TransactionType {
+        self.transaction_type
+    }
+
+    /// Returns the owner of the transaction
+    pub fn get_owner(&self) -> Uuid {
+        self.owner
+    }
+
+    /// Returns the wall-clock time the transaction occured at
+    pub fn get_time(&self) -> Option<DateTime<FixedOffset>> {
+        self.time
+    }
+
+    /// Returns the coordinantes of the block this transaction effects
+    pub fn get_coords(&self) -> Option<(i32, i32, i32)> {
+        self.coords
+    }
 }
