@@ -135,4 +135,8 @@ pub struct RawTransaction {
     owner: Uuid,
     /// When they did the transaction
     time: DateTime<FixedOffset>,
+    /// Where the transaction takes place
+    ///
+    /// Stored in (x,y,z) format
+    coords: (u32, u32, u32),
 }
