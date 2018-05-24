@@ -75,6 +75,7 @@ impl PartialOrd for TransactionID {
 /// 3. Undo
 ///    * Undoes the transaction with the given transaction id.
 ///      Will make the world appear as if that transaction had never existed.
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub enum TransactionType {
     Set {
         block_set: Block,
