@@ -127,6 +127,8 @@ impl TransactionType {
 ///
 /// Contains all the information a normal transaction does, but doesn't have a transaction ID
 /// associated with it, and has not yet been processed.
+///
+/// This has several optional or defaulting behavior fields,
 #[derive(Copy, Clone, PartialEq, Eq)]
 pub struct RawTransaction {
     /// What this transaction is actually doing
@@ -134,9 +136,12 @@ pub struct RawTransaction {
     /// Who did the transaction
     owner: Uuid,
     /// When they did the transaction
-    time: DateTime<FixedOffset>,
+    time: Option<DateTime<FixedOffset>>,
     /// Where the transaction takes place
     ///
     /// Stored in (x,y,z) format
-    coords: (u32, u32, u32),
+    ///
+    /// This is optional because some transactions don't explicitly refrence a block, like an
+    /// undo, and others may refrence large sections of blocks, like a SetCuboid
+    coords: Option<(u32, u32, u32)>,
 }
