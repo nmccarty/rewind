@@ -209,7 +209,7 @@ impl RawTransactionBuilder {
         let time = self.time;
         let coords: Option<(i32, i32, i32)> = match (self.coord_x, self.coord_y, self.coord_z) {
             (Some(x), Some(y), Some(z)) => Some((x, y, z)),
-            end => None,
+            _ => None,
         };
 
         RawTransaction {
