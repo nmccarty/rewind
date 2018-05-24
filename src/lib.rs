@@ -1,6 +1,7 @@
 //! Contains the heart and soul of the module, the rewind data structure
 extern crate im;
 extern crate uuid;
+extern crate chrono;
 
 pub mod data;
 pub mod storage;
@@ -20,3 +21,4 @@ pub mod storage;
 /// and branch ids 
 
 pub struct Rewind;
+
