@@ -1,7 +1,9 @@
 //! This module contains datastructures describing transactions
 
+use chrono::prelude::*;
 use data::block::*;
 use std::cmp::*;
+use uuid::Uuid;
 
 /// Repusents a Transaction ID
 ///
@@ -87,4 +89,18 @@ pub enum TransactionType {
     Undo {
         transaction: TransactionID,
     },
+}
+
+/// A transaction that has not yet been processed
+///
+/// Contains all the information a normal transaction does, but doesn't have a transaction ID
+/// associated with it, and has not yet been processed.
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct RawTransaction {
+    /// What this transaction is actually doing
+    transaction_type: TransactionType,
+    /// Who did the transaction
+    owner: Uuid,
+    /// When they did the transaction
+    time: DateTime<FixedOffset>,
 }
