@@ -17,6 +17,7 @@ use data::*;
 /// Chunks are indexed by the offset applied to each individual block.
 /// E.g. with a chunk size of 10, the chunk with corners (10,0) and (20,10)
 /// would be indexed with (10,0)
+#[derive(Clone)]
 pub struct World {
     chunks: HashMap<(i32, i32), Chunk>,
     default_block: MetaBlock,
