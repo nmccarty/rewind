@@ -4,6 +4,7 @@
 
 use data::*;
 use im::*;
+use std::borrow::Borrow;
 use std::sync::Arc;
 
 /// Persistent World
@@ -42,11 +43,11 @@ impl World {
     }
 
     /// Gets the chunk at a specified index
-    pub fn get_chunk_at(&self, x: i32, y: i32) -> Option<&Chunk> {
+    pub fn get_chunk_at(&self, x: i32, y: i32) -> Option<Chunk> {
         let index = self.get_chunk_index(x, y);
         let result = self.chunks.get(&index);
         match result {
-            Some(x) => Some(&*x),
+            Some(x) => Some((*x).clone()),
             None => None,
         }
     }
@@ -108,7 +109,8 @@ impl World {
         let (cx, cy, cz) = self.convert_coords(x, y, z);
         let empty_chunk = Chunk::new(*self.default_block.get_block());
         let old_chunk = self.chunks.get(&index).unwrap_or(Arc::new(empty_chunk));
-        let new_chunks = self.chunks.insert(index, old_chunk.set_block(cx, cy, cz, block));
+        let new_chunks = self.chunks
+            .insert(index, old_chunk.set_block(cx, cy, cz, block));
 
         World {
             chunks: new_chunks,

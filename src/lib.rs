@@ -8,7 +8,7 @@ pub mod storage;
 
 use data::*;
 use im::*;
-ccuse std::sync::{Arc, Mutex, RwLock};
+use std::sync::{Arc, Mutex, RwLock};
 
 /// The heart and soul of the library, the Rewind datastructre
 ///
