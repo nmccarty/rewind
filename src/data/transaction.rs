@@ -33,10 +33,11 @@ impl TransactionID {
     }
 
     /// Increments the major id (id) by one
+    ///
+    /// Resets minor id to 0
     pub fn increment_major(&self) -> TransactionID {
         let id = self.id + 1;
-        let sub_id = self.sub_id;
-        TransactionID { id, sub_id }
+        TransactionID { id, sub_id: 0 }
     }
 
     /// Increments the minor id (sub_id) by one
