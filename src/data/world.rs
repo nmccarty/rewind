@@ -58,13 +58,6 @@ impl World {
         self.chunks.contains_key(&index)
     }
 
-    /// Creates a new chunk at the specificed index
-    fn create_chunk(&self, x: i32, y: i32) -> HashMap<(i32, i32), Chunk> {
-        let mut new_chunks = self.chunks.clone();
-        new_chunks.insert((x, y), Chunk::new(*self.default_block.get_block()));
-        new_chunks
-    }
-
     /// Takes coordianates and turns them into their in chunks version
     fn convert_coords(&self, x: i32, y: i32, z: i32) -> (usize, usize, usize) {
         let x = (x.abs() as usize) % self.chunk_size;
