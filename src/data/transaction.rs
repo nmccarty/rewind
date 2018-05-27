@@ -204,7 +204,8 @@ impl RawTransactionBuilder {
     pub fn build_transaction(&self) -> RawTransaction {
         let transaction_type = self.transaction_type;
         // If an owner was not provided, we are forced to default to the null Uuid
-        let owner = self.owner
+        let owner = self
+            .owner
             .unwrap_or(Uuid::parse_str("0000000000000000000000000000000").unwrap());
         let time = self.time;
         let coords: Option<(i32, i32, i32)> = match (self.coord_x, self.coord_y, self.coord_z) {
@@ -218,5 +219,42 @@ impl RawTransactionBuilder {
             time,
             coords,
         }
+    }
+
+    /// Sets the owner of the transaction
+    pub fn set_owner(&mut self, owner: Uuid) -> &mut Self {
+        self.owner = Some(owner);
+        self
+    }
+
+    /// Sets the time wall-clock time the transaction took place at
+    pub fn set_time(&mut self, time: DateTime<FixedOffset>) -> &mut Self {
+        self.time = Some(time);
+        self
+    }
+
+    /// Sets the wall-clock time of the transaction to now
+    pub fn set_time_now(&mut self) -> &mut Self {
+        let local_time = Local::now();
+        self.time = Some(local_time.with_timezone(local_time.offset()));
+        self
+    }
+
+    /// Sets the x coordinate the transaction takes place at
+    pub fn set_x_coord(&mut self, x: i32) -> &mut Self {
+        self.coord_x = Some(x);
+        self
+    }
+
+    /// Sets the x coordinate the transaction takes place at
+    pub fn set_y_coord(&mut self, y: i32) -> &mut Self {
+        self.coord_y = Some(y);
+        self
+    }
+
+    /// Sets the x coordinate the transaction takes place at
+    pub fn set_z_coord(&mut self, z: i32) -> &mut Self {
+        self.coord_z = Some(z);
+        self
     }
 }
