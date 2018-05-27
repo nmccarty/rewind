@@ -267,3 +267,20 @@ pub struct Transaction {
     /// The transaction id assinged to this transaction
     id: TransactionID,
 }
+
+impl Transaction {
+    /// Creates a new Transaction from a RawTransaction and a TransactionID
+    pub fn new(transaction: RawTransaction, id: TransactionID) -> Transaction {
+        Transaction { transaction, id }
+    }
+
+    /// Returns the RawTransaction
+    pub fn get_transaction(&self) -> RawTransaction {
+        self.transaction
+    }
+
+    /// Returns the transaction id
+    pub fn get_id(&self) -> TransactionID {
+        self.id
+    }
+}
