@@ -2,10 +2,9 @@
 //!
 //! Worlds are persistent and immutable
 
-// TODO: Use a persistent hashmap for better efficency
-use std::collections::HashMap;
 use data::*;
-
+use im::*;
+use std::sync::Arc;
 
 /// Persistent World
 ///
@@ -45,7 +44,11 @@ impl World {
     /// Gets the chunk at a specified index
     pub fn get_chunk_at(&self, x: i32, y: i32) -> Option<&Chunk> {
         let index = self.get_chunk_index(x, y);
-        self.chunks.get(&index)
+        let result = self.chunks.get(&index);
+        match result {
+            Some(x) => Some(&*x),
+            None => None,
+        }
     }
 
     /// Returns true if the chunk at the specificed index exists
@@ -104,9 +107,8 @@ impl World {
         let index = self.get_chunk_index(x, y);
         let (cx, cy, cz) = self.convert_coords(x, y, z);
         let empty_chunk = Chunk::new(*self.default_block.get_block());
-        let old_chunk = self.chunks.get(&index).unwrap_or(&empty_chunk);
-        let mut new_chunks = self.chunks.clone();
-        new_chunks.insert(index, old_chunk.set_block(cx, cy, cz, block));
+        let old_chunk = self.chunks.get(&index).unwrap_or(Arc::new(empty_chunk));
+        let new_chunks = self.chunks.insert(index, old_chunk.set_block(cx, cy, cz, block));
 
         World {
             chunks: new_chunks,
