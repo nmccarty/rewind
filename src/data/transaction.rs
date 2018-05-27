@@ -258,3 +258,12 @@ impl RawTransactionBuilder {
         self
     }
 }
+
+/// A transaction that has been commited to the world and has been assigned a transaction ID
+#[derive(Copy, Clone, PartialEq, Eq)]
+pub struct Transaction {
+    /// The details about the transaction are stored in the corrosponding RawTransaction
+    transaction: RawTransaction,
+    /// The transaction id assinged to this transaction
+    id: TransactionID,
+}
