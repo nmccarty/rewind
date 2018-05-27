@@ -4,8 +4,8 @@
 
 // TODO: Use a persistent hashmap for better efficency
 use std::collections::HashMap;
-use data::chunk::*;
-use data::block::*;
+use data::*;
+
 
 /// Persistent World
 ///
