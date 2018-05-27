@@ -298,4 +298,12 @@ impl Transaction {
     pub fn get_id(&self) -> TransactionID {
         self.id
     }
+
+    /// Returns true if this transaction is an Undo
+    pub fn is_undo(&self) -> bool {
+        match self.get_transaction().get_transaction_type() {
+            TransactionType::Undo { .. } => true,
+            _ => false,
+        }
+    }
 }
