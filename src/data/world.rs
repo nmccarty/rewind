@@ -4,7 +4,6 @@
 
 use data::*;
 use im::*;
-use std::borrow::Borrow;
 use std::sync::Arc;
 
 /// Persistent World
