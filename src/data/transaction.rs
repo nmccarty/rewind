@@ -201,7 +201,7 @@ impl RawTransactionBuilder {
     /// Converts the builder into a transaction
     ///
     /// Does not consume
-    pub fn build_transaction(&self) -> RawTransaction {
+    pub fn build_transaction(&self) -> Option<RawTransaction> {
         let transaction_type = self.transaction_type;
         // If an owner was not provided, we are forced to default to the null Uuid
         let owner = self
@@ -213,11 +213,26 @@ impl RawTransactionBuilder {
             _ => None,
         };
 
-        RawTransaction {
+        let transaction = RawTransaction {
             transaction_type,
             owner,
             time,
             coords,
+        };
+
+        // Fail the build if the transaction requires coordinates, but does not have them
+        match transaction_type {
+            TransactionType::Set { .. } => if coords.is_some() {
+                Some(transaction)
+            } else {
+                None
+            },
+            TransactionType::Replace { .. } => if coords.is_some() {
+                Some(transaction)
+            } else {
+                None
+            },
+            TransactionType::Undo { .. } => Some(transaction),
         }
     }
 
