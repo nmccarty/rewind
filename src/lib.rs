@@ -8,7 +8,7 @@ pub mod storage;
 
 use data::*;
 use im::*;
-use std::sync::{Arc, Mutex};
+ccuse std::sync::{Arc, Mutex, RwLock};
 
 /// The heart and soul of the library, the Rewind datastructre
 ///
@@ -25,7 +25,7 @@ use std::sync::{Arc, Mutex};
 #[derive(Clone)]
 pub struct Rewind {
     world_line: Arc<Mutex<WorldLine>>,
-    world: Arc<Mutex<World>>,
+    world: Arc<RwLock<World>>,
 }
 
 impl Rewind {
@@ -35,8 +35,16 @@ impl Rewind {
         let world = World::new(default_block);
         Rewind {
             world_line: Arc::new(Mutex::new(world_line)),
-            world: Arc::new(Mutex::new(world)),
+            world: Arc::new(RwLock::new(world)),
         }
+    }
+
+    /// Returns an immutable view of the world
+    ///
+    /// Will block until the RwLock on world becomes free
+    pub fn get_world_state(&self) -> World {
+        let world = self.world.read().unwrap();
+        (*world).clone()
     }
 }
 
