@@ -22,7 +22,7 @@ impl Block {
 }
 
 /// Stores metadata about a block (i.e. damagevalue)
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct MetaData {
     data_value: Option<i32>,
 }
@@ -47,7 +47,7 @@ impl MetaData {
 }
 
 /// Pairs a block with its metadata, if it has any
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 pub struct MetaBlock {
     block: Block,
     meta_data: MetaData,

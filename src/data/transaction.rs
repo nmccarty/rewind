@@ -81,11 +81,11 @@ impl PartialOrd for TransactionID {
 #[derive(Copy, Clone, PartialEq, Eq)]
 pub enum TransactionType {
     Set {
-        block_set: Block,
+        block_set: MetaBlock,
     },
     Replace {
-        block_current: Block,
-        block_set: Block,
+        block_current: MetaBlock,
+        block_set: MetaBlock,
     },
     Undo {
         transaction: TransactionID,
@@ -96,7 +96,7 @@ impl TransactionType {
     /// Creates a new set transaction
     ///
     /// Takes the block to set to
-    pub fn new_set(block: Block) -> TransactionType {
+    pub fn new_set(block: MetaBlock) -> TransactionType {
         TransactionType::Set { block_set: block }
     }
 
@@ -106,7 +106,7 @@ impl TransactionType {
     ///
     /// This transaction type will only succueed if the block that is being set is still
     /// in the orignal state when the transaction is being processed
-    pub fn new_replace(original: Block, replacement: Block) -> TransactionType {
+    pub fn new_replace(original: MetaBlock, replacement: MetaBlock) -> TransactionType {
         TransactionType::Replace {
             block_current: original,
             block_set: replacement,
@@ -205,8 +205,7 @@ impl RawTransactionBuilder {
     pub fn build_transaction(&self) -> Option<RawTransaction> {
         let transaction_type = self.transaction_type;
         // If an owner was not provided, we are forced to default to the null Uuid
-        let owner = self
-            .owner
+        let owner = self.owner
             .unwrap_or(Uuid::parse_str("0000000000000000000000000000000").unwrap());
         let time = self.time;
         let coords: Option<(i32, i32, i32)> = match (self.coord_x, self.coord_y, self.coord_z) {
