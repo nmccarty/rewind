@@ -8,6 +8,7 @@ pub mod storage;
 
 use data::*;
 use im::*;
+use std::sync::{Arc, Mutex};
 
 /// The heart and soul of the library, the Rewind datastructre
 ///
@@ -22,7 +23,22 @@ use im::*;
 /// All rewinds along a given world tree share a common, add-only database of transactions
 /// and branch ids
 #[derive(Clone)]
-pub struct Rewind;
+pub struct Rewind {
+    world_line: Arc<Mutex<WorldLine>>,
+    world: Arc<Mutex<World>>,
+}
+
+impl Rewind {
+    /// Creates a new Rewind with an empty worldline and an empty world
+    pub fn new(default_block: MetaBlock) -> Rewind {
+        let world_line = WorldLine::new();
+        let world = World::new(default_block);
+        Rewind {
+            world_line: Arc::new(Mutex::new(world_line)),
+            world: Arc::new(Mutex::new(world)),
+        }
+    }
+}
 
 /// Contains and manages the list of transactions in a world
 #[derive(Clone)]
